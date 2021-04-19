@@ -54,7 +54,7 @@ f.QCpassList<-
     if(n.MyList != 100| n.MyList != n.Sample){
 
       if (readline("仍要輸出請輸入 [Yes]: ") == 'Yes'){
-        write.csv(QCpassList, file.path(outPath, FileName), row.names = F)
+        write.csv(QCpassList, file.path(outPath, 'PassList', FileName), row.names = F)
 
         # Write to ODBC
         sqlSave(db, QCpassList, tablename = 'QCpassList', append = T,
@@ -64,7 +64,7 @@ f.QCpassList<-
         cat(bgBlue("== 完成 =="), "檔案名稱:", FileName, sep = '\n')
 
         if (n.manual != 0){
-          write.csv(manual, file.path(outPath, ManualName), row.names = F)
+          write.csv(manual, file.path(outPath, 'PassList', ManualName), row.names = F)
           cat(bgBlue("== 需手動稀釋 =="), "檔案名稱:", ManualName,
               paste(n.manual, '支'), sep = '\n')
         }
@@ -74,7 +74,7 @@ f.QCpassList<-
       }
 
     } else {
-      write.csv(QCpassList, file.path(outPath, FileName), row.names = F)
+      write.csv(QCpassList, file.path(outPath, 'PassList', FileName), row.names = F)
 
       # Write to ODBC
       sqlSave(db, QCpassList, tablename = 'QCpassList', append = T,
@@ -84,7 +84,7 @@ f.QCpassList<-
       cat(bgBlue("== 完成 =="), "檔案名稱:", FileName, sep = '\n')
 
       if (n.manual != 0){
-        write.csv(manual, file.path(outPath, ManualName), row.names = F)
+        write.csv(manual, file.path(outPath, 'PassList', ManualName), row.names = F)
         cat(bgBlue("== 需手動稀釋 =="), "檔案名稱:", ManualName,
             paste(n.manual, '支'), sep = '\n')
       }
