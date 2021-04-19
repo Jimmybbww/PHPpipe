@@ -1,7 +1,7 @@
 #---- f.DNAextractQC ----
 f.DNAextractQC<-
   function(path= choose.files(), LowerOD= 1.65, UpperOD= 2.2, DNAcon= 10,
-           outPath, type, db){
+           outPath, type, db = NULL){
 
     library(dplyr)
     library(data.table)
@@ -59,13 +59,16 @@ f.DNAextractQC<-
       date= format(Sys.Date(), '%Y%m%d')
       min= min(df1$workid)
       max= max(df1$workid)
-      passFileName= paste0(date, '_DNAextract_Pass_', min, '_', max, '.csv')
-      failFileName= paste0(date, '_DNAextract_Fail_', min, '_', max, '.csv')
+
+      if (type == 1){FileType = '_DNAextract'
+      } else if (type == 2){FileType = '_retestDNA'}
+      passFileName= paste0(date, FileType, '_Pass_', min, '_', max, '.csv')
+      failFileName= paste0(date, FileType, '_Fail_', min, '_', max, '.csv')
 
       write.csv(DNAextract_Pass,
                 file.path(outPath, 'Pass',  passFileName), row.names = F)
 
-      if (exists('db')){
+      if (is.null(db)){
         # Write to ODBC
         sqlSave(db, DNAextract_Pass, tablename = 'DNAextract_Pass', append = T,
                 varTypes = c(workid = 'int')
@@ -79,7 +82,7 @@ f.DNAextractQC<-
         write.csv(DNAextract_Fail,
                   file.path(outPath, 'Fail',  failFileName), row.names = F)
 
-        if (exists('db')){
+        if (is.null(db)){
           # Write to ODBC
           sqlSave(db, DNAextract_Fail, tablename = 'DNAextract_Fail', append = T,
                   varTypes = c(workid = 'int')
@@ -94,7 +97,7 @@ f.DNAextractQC<-
     } else {
       cat(bgRed('== 檔案格式錯誤 ==\n'), bgBlue('== 結束程序 ==\n'))
     }
-    if (exists('db')) {odbcClose(db)}
+    if (is.null(db)) {odbcClose(db)}
   }
 
 #f.DNAextractQC()
