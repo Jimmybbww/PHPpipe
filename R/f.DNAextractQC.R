@@ -68,7 +68,7 @@ f.DNAextractQC<-
       write.csv(DNAextract_Pass,
                 file.path(outPath, 'Pass',  passFileName), row.names = F)
 
-      if (is.null(db)){
+      if (!is.null(db)){
         # Write to ODBC
         sqlSave(db, DNAextract_Pass, tablename = 'DNAextract_Pass', append = T,
                 varTypes = c(workid = 'int')
@@ -82,7 +82,7 @@ f.DNAextractQC<-
         write.csv(DNAextract_Fail,
                   file.path(outPath, 'Fail',  failFileName), row.names = F)
 
-        if (is.null(db)){
+        if (!is.null(db)){
           # Write to ODBC
           sqlSave(db, DNAextract_Fail, tablename = 'DNAextract_Fail', append = T,
                   varTypes = c(workid = 'int')
@@ -97,7 +97,7 @@ f.DNAextractQC<-
     } else {
       cat(bgRed('== 檔案格式錯誤 ==\n'), bgBlue('== 結束程序 ==\n'))
     }
-    if (is.null(db)) {odbcClose(db)}
+    if (!is.null(db)) {odbcClose(db)}
   }
 
 #f.DNAextractQC()
