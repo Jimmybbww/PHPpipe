@@ -33,8 +33,18 @@ f.DNAextractQC<-
                      stringsAsFactors = F) %>%
           filter(!is.na(X1))
       } else if (type == 2){
-        #df<- fread(path) %>% .[,1:10]
-        df<- read.csv(path, fileEncoding = 'UTF-16', sep = '\t') %>% .[,1:10]
+
+        msg =
+          tryCatch(read.csv(path, fileEncoding = 'UTF-16', sep = '\t'),
+                   warning = function(w){T},
+                   error = function(e){T})
+
+        if (any(msg)){
+          df<- fread(path) %>% .[,1:10]
+        } else {
+          df<- read.csv(path, fileEncoding = 'UTF-16', sep = '\t') %>% .[,1:10]
+        }
+
         date_time= mdy_hms(df$Date)
         Date= format(date_time, '%Y/%m/%d')
         time= format(date_time, '%H:%M:%S')
