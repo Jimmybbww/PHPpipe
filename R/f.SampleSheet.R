@@ -9,16 +9,15 @@ f.SampleSheet<-
     library(crayon)
     options(scipen = 999)
 
-    #tempName= file.path(tempPath, 'GeneTitanArrayPlateRegistration.xls')
-    tempName=
+    tempPath=
       system.file("extdata",
                   "GeneTitanArrayPlateRegistration.xls", package = "PHPpipe")
 
-    temp  <- read_excel(tempName, sheet = 1)
+    temp  <- read_excel(tempPath, sheet = 1)
     sheet2<-
-      read_excel(tempName, sheet = 2) %>%
+      read_excel(tempPath, sheet = 2) %>%
       cbind.data.frame(` ` = rep('',nrow(.)),.)
-    sheet3<- read_excel(tempName, sheet = 3)
+    sheet3<- read_excel(tempPath, sheet = 3)
 
     array= txt %>% basename() %>% strsplit(.,'_') %>% unlist() %>% .[2]
 
