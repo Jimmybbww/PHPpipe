@@ -1,7 +1,7 @@
 
 ## <i class="fa fa-map" aria-hidden="true"></i> PHPpipe package
 
-**PHPpipe** is a R package for **Pipeline of Precision Health Project in** .....
+**PHPpipe** is a R package for **Pipeline of Precision Health Project in CMUH** .....
 
 ## <i class="fa fa-rocket" aria-hidden="true"></i> Installation
 
