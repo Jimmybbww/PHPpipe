@@ -16,7 +16,7 @@ install_github("Jimmybbww/PHPpipe")
 
 ### <u>f.DNAextractQC<u>
 **Usage:**  
-`f.DNAextractQC(path = choose.files, LowerOD = 1.65, UpperOD = 2.20, DNAcon = 10, outPath, type, db = NULL)`  <br>
+`f.DNAextractQC(path = choose.files, LowerOD = 1.65, UpperOD = 2.20, DNAcon = 10, outPath, type, db = NULL)`  
 
 
 **Arguments:**  
@@ -31,7 +31,7 @@ install_github("Jimmybbww/PHPpipe")
 ---
 ### <u>f.QCpassList<u>
 **Usage:**  
-`f.QCpassList(outPath, db, myFirst, myLast)`  <br>
+`f.QCpassList(outPath, db, myFirst, myLast)`  
 
 
 **Arguments:**  
@@ -44,7 +44,7 @@ install_github("Jimmybbww/PHPpipe")
 
 ### <u>f.Dilut2Tecan<u>
 **Usage:**  
-`f.Dilut2Tecan(outPath, db, array, start, appendix = F, exclude = F, n.out = 95)`  <br>
+`f.Dilut2Tecan(outPath, db, array, start, appendix = F, exclude = F, n.out = 95)`  
 
 
 **Arguments:**  
@@ -55,5 +55,19 @@ install_github("Jimmybbww/PHPpipe")
 `appendix`  a file containing re-diluting, manual diluting and exclusion samples.  
 `exclude` a *logical* value indicating whether or not to be exclude samples.  
 `n.out` maximum number of samples.  
+
+---
+### <u>f.SampleSheet<u>
+**Usage:**  
+`f.SampleSheet(txt= file.choose(), outPath, db = NULL, GT, plt, barcode)`  
+
+
+  **Arguments:**  
+  `txt` the name of the file which the data are to be read from.  (default: `choose.files`).  
+  `outPath` a character string naming a output path.  
+  `db` connection handle returned by `RODBC::odbcConnect`. (default: *NULL*).  
+  `GT` machine number.  
+  `plt` array number.  
+  `barcode` scanning the barcode on the array.  
 
 ---
