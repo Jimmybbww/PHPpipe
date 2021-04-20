@@ -1,4 +1,5 @@
 
+
 ## <i class="fa fa-map" aria-hidden="true"></i> PHPpipe package
 
 **PHPpipe** is a R package for **Pipeline of Precision Health Project in CMUH** .....
@@ -37,8 +38,8 @@ install_github("Jimmybbww/PHPpipe")
 **Arguments:**  
 `outPath` a character string naming a output path.
 `db` connection handle returned by `RODBC::odbcConnect`.   
-`myFirst` scanning the first workid barcode on write box.   
-`myLast` scanning the last workid barcode on write box.  
+`myFirst` scanning the first work ID barcode on white box.   
+`myLast` scanning the last work ID barcode on white box.  
 
 ---
 
@@ -51,9 +52,9 @@ install_github("Jimmybbww/PHPpipe")
 `outPath` a character string naming a output path.  
 `db` connection handle returned by `RODBC::odbcConnect`.  
 `array` array number.  
-`start` the first workID to be diluting.  
-`appendix`  a file containing re-diluting, manual diluting and exclusion samples.  
-`exclude` a *logical* value indicating whether or not to be exclude samples.  
+`start` the first work ID to be diluted.  
+`appendix`  a file containing re-diluted, manual diluted and exclusion samples.  
+`exclude` a *logical* value indicating whether the samples to be excluded.  
 `n.out` maximum number of samples.  
 
 ---
