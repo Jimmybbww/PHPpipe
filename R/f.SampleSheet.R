@@ -1,6 +1,6 @@
 #---- f.SampleSheet ----
 f.SampleSheet<-
-  function(txt= file.choose(), tempPath, outPath, db = NULL, GT, plt, barcode){
+  function(txt= file.choose(), outPath, db = NULL, GT, plt, barcode){
 
     library(dplyr)
     library(lubridate)
@@ -9,7 +9,10 @@ f.SampleSheet<-
     library(crayon)
     options(scipen = 999)
 
-    tempName= file.path(tempPath, 'GeneTitanArrayPlateRegistration.xls')
+    #tempName= file.path(tempPath, 'GeneTitanArrayPlateRegistration.xls')
+    tempName=
+      system.file("extdata",
+                  "GeneTitanArrayPlateRegistration.xls", package = "PHPpipe")
 
     temp  <- read_excel(tempName, sheet = 1)
     sheet2<-
