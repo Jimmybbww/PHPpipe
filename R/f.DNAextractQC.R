@@ -1,4 +1,6 @@
-#' f.DNAextractQC
+#' DNA extract QC
+#'
+#' Quality control for DNA extract with standard format and re-test format.
 #'
 #' @usage
 #' f.DNAextractQC(path = choose.files, LowerOD = 1.65, UpperOD = 2.20, DNAcon = 10, outPath, type, db = NULL)
@@ -11,16 +13,13 @@
 #' @param type *1* : standard format/ *2* : retest format.
 #' @param db connection handle returned by `RODBC::odbcConnect`. (default: *NULL*).
 #' @export
+#'
+#' @importFrom dplyr
 
 f.DNAextractQC<-
   function(path= choose.files(), LowerOD= 1.65, UpperOD= 2.2, DNAcon= 10,
            outPath, type, db = NULL){
 
-    library(dplyr)
-    library(data.table)
-    library(lubridate)
-    library(crayon)
-    library(RODBC)
     options(scipen = 999)
 
     if (type == 1){
@@ -53,12 +52,12 @@ f.DNAextractQC<-
                    error = function(e){T})
 
         if (any(msg)){
-          df<- fread(path) %>% .[,1:10]
+          df<- data.table::fread(path) %>% .[,1:10]
         } else {
           df<- read.csv(path, fileEncoding = 'UTF-16', sep = '\t') %>% .[,1:10]
         }
 
-        date_time= mdy_hms(df$Date)
+        date_time= lubridate::mdy_hms(df$Date)
         Date= format(date_time, '%Y/%m/%d')
         time= format(date_time, '%H:%M:%S')
 
@@ -93,13 +92,13 @@ f.DNAextractQC<-
 
       if (!is.null(db)){
         # Write to ODBC
-        sqlSave(db, DNAextract_Pass, tablename = 'DNAextract_Pass', append = T,
-                varTypes = c(workid = 'int')
-                )
+        RODBC::sqlSave(db, DNAextract_Pass, tablename = 'DNAextract_Pass',
+                       append = T, varTypes = c(workid = 'int')
+                       )
         }
 
-      cat(bgBlue("== 完成 =="), "檔案名稱:", passFileName,
-          paste(bgGreen('PASS:'), nrow(DNAextract_Pass), '支'), '\n', sep = '\n')
+      cat(caryon::bgBlue("== 完成 =="), "檔案名稱:", passFileName,
+          paste(caryon::bgGreen('PASS:'), nrow(DNAextract_Pass), '支'), '\n', sep = '\n')
 
       if (nrow(DNAextract_Fail)!=0){
         write.csv(DNAextract_Fail,
@@ -107,20 +106,20 @@ f.DNAextractQC<-
 
         if (!is.null(db)){
           # Write to ODBC
-          sqlSave(db, DNAextract_Fail, tablename = 'DNAextract_Fail', append = T,
-                  varTypes = c(workid = 'int')
-                  )
+          RODBC::sqlSave(db, DNAextract_Fail, tablename = 'DNAextract_Fail',
+                         append = T, varTypes = c(workid = 'int')
+                         )
           }
 
-        cat(bgBlue("== 完成 =="), "檔案名稱:", failFileName,
-            paste(bgRed('FAIL:'), nrow(DNAextract_Fail), '支'), sep = '\n')
+        cat(caryon::bgBlue("== 完成 =="), "檔案名稱:", failFileName,
+            paste(caryon::bgRed('FAIL:'), nrow(DNAextract_Fail), '支'), sep = '\n')
         print(DNAextract_Fail[,c(1:6)])
       }
 
     } else {
-      cat(bgRed('== 檔案格式錯誤 ==\n'), bgBlue('== 結束程序 ==\n'))
+      cat(caryon::bgRed('== 檔案格式錯誤 ==\n'), caryon::bgBlue('== 結束程序 ==\n'))
     }
-    if (!is.null(db)) {odbcClose(db)}
+    if (!is.null(db)) {RODBC::odbcClose(db)}
   }
 
 #f.DNAextractQC()
