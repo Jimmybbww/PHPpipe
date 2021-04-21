@@ -1,35 +1,47 @@
-#---- f.Dilut2Tecan ----
-f.Dilut2Tecan<-
+#' Dilut2Tecan
+#'
+#' Create Tecan format (.gwl) and samples list (.txt).
+#'
+#' @usage
+#' Dilut2Tecan(outPath, db, array, start, appendix = F, exclude = F, n.out = 95)
+#' @param outPath a character string naming a output path.
+#' @param db connection handle returned by `RODBC::odbcConnect`.
+#' @param array array number.
+#' @param start the first work ID to be diluted.
+#' @param appendix a file containing re-diluted, manual diluted and exclusion samples.
+#' @param exclude a *logical* value indicating whether the samples to be excluded.
+#' @param n.out the maximum number of sample.
+#' @export
+#'
+#' @importFrom dplyr
+
+Dilut2Tecan<-
   function(outPath, db, array, start, appendix = F, exclude = F, n.out= 95){
 
-    library(dplyr)
-    library(data.table)
-    library(crayon)
-    library(readxl)
     options(scipen = 999)
 
     # 從 SQL 端查詢 QCpasslist 中 DNA 濃度>25 (dilut_pass = 1)
     df1<-
-      sqlQuery(db,
-               "SELECT
-               extr_date, extr_time, extr_type, workid, ng_ul,
-               _260_280, _260, _280, extr_qc_time, status,
-               dna, h2o, dilut_pass, MIN(box_time)
-               FROM QCpasslist
-               WHERE dilut_pass = 1
-               GROUP BY workid
-               ORDER BY workid;"
-               )
+      RODBC::sqlQuery(db,
+      "SELECT
+      extr_date, extr_time, extr_type, workid, ng_ul,
+      _260_280, _260, _280, extr_qc_time, status,
+      dna, h2o, dilut_pass, MIN(box_time)
+      FROM QCpasslist
+      WHERE dilut_pass = 1
+      GROUP BY workid
+      ORDER BY workid;"
+      )
 
     if (appendix){
       apdx = file.choose()
       # 讀入"重測"和"手動"的工作號
-      retest = read_excel(apdx, sheet = 1) %>% .$Retest %>% as.numeric(.)
-      manual = read_excel(apdx, sheet = 2) %>% .$Manual %>% as.numeric(.)
+      retest = readxl::read_excel(apdx, sheet = 1) %>% .$Retest %>% as.numeric(.)
+      manual = readxl::read_excel(apdx, sheet = 2) %>% .$Manual %>% as.numeric(.)
 
       # 讀入排除的工作號，並將 df1 中存在需排除的工作號排除
       if (exclude){
-        ex<- read_excel(apdx, sheet = 3) %>% .$Exclude %>% as.numeric(.)
+        ex<- readxl::read_excel(apdx, sheet = 3) %>% .$Exclude %>% as.numeric(.)
         df1<- df1 %>% filter(!workid %in% ex$Exclude)
       }
     } else {
@@ -74,14 +86,14 @@ f.Dilut2Tecan<-
     Ans2= ''
 
     if ( any(df1$workid %in% manual) ){
-      Ans1= readline(cat(bgRed('[警告]'),warning1))
-      if ( Ans1 != 'Yes' ){ cat(bgBlue("== 取消匯出 ==")) }
+      Ans1= readline(cat(caryon::bgRed('[警告]'),warning1))
+      if ( Ans1 != 'Yes' ){ cat(caryon::bgBlue("== 取消匯出 ==")) }
     }
 
     if( !any(df1$workid %in% c(retest, manual)) | Ans1 == 'Yes' ){
       if ( nrow(List2Txt) != n.out ){
-        Ans2 = readline(cat(bgRed('[警告]'),warning2))
-        if ( Ans2 != 'Yes' ){ cat(bgBlue("== 取消匯出 ==")) }
+        Ans2 = readline(cat(caryon::bgRed('[警告]'),warning2))
+        if ( Ans2 != 'Yes' ){ cat(caryon::bgBlue("== 取消匯出 ==")) }
       }
 
       if (nrow(List2Txt) == n.out | Ans2 == 'Yes'){
@@ -111,7 +123,7 @@ f.Dilut2Tecan<-
         write.table(gwl, file.path(outPath, 'gwl', Name.gwl),
                     quote = F, col.names = F, row.names = F)
 
-        cat(bgBlue("== 完成 =="), "(.gwl) 檔案名稱:", Name.gwl,
+        cat(caryon::bgBlue("== 完成 =="), "(.gwl) 檔案名稱:", Name.gwl,
             paste('此清單中有:', n.gwl, '支\n'), sep = '\n')
 
         # ---- create & write txt (pos, worknumber) ----
@@ -125,11 +137,11 @@ f.Dilut2Tecan<-
                     quote = F, col.names = F, row.names = F)
 
         # Write to ODBC
-        sqlSave(db, csv, tablename = 'Dilut2Tecan', append = T,
-                varTypes = c(workid = 'int', array = 'int')
-                )
+        RODBC::sqlSave(db, csv, tablename = 'Dilut2Tecan', append = T,
+                       varTypes = c(workid = 'int', array = 'int')
+                       )
 
-        cat(bgBlue("== 完成 =="), "(.txt) 檔案名稱:", Name.txt,
+        cat(caryon::bgBlue("== 完成 =="), "(.txt) 檔案名稱:", Name.txt,
             paste('此清單中有:', nrow(txt), '支\n'), sep = '\n')
 
         # Write check.list
@@ -137,13 +149,13 @@ f.Dilut2Tecan<-
                     col.names = !file.exists(file.path(outPath, "check.list.csv")),
                     row.names = F, append = T)
 
-        cat(bgBlue("== 註 =="),
+        cat(caryon::bgBlue("== 註 =="),
             "自動/重測/手動稀釋紀錄於\n檔案名稱: check.list.csv", sep = '\n')
       }
 
     }
-    odbcClose(db)
+    RODBC::odbcClose(db)
   }
 
-# f.Dilut2Tecan()
+#Dilut2Tecan()
 

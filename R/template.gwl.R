@@ -1,8 +1,13 @@
-#---- template.gwl ----
+#' template.gwl
+#'
+#' Create template of Tecan format.
+#' @export
+#'
+#' @importFrom dplyr
+
 template.gwl<-
   function(){
 
-    library(dplyr)
     # ---- gwl head ----
     head<-
       tibble(done = c('B;', 'B;',

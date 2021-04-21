@@ -1,23 +1,35 @@
-#---- f.SampleSheet ----
-f.SampleSheet<-
+#' SampleSheet
+#'
+#' Create sample sheet for Gene Titan Array Plate Registration format file.
+#'
+#' @usage
+#' SampleSheet(txt= file.choose(), outPath, db = NULL, GT, plt, barcode)
+#' @param txt the name of the file which the data are to be read from.
+#' (default: `choose.files`).
+#' @param outPath a character string naming a output path.
+#' @param db connection handle returned by `RODBC::odbcConnect`.
+#' (default: *NULL*).
+#' @param GT machine number.
+#' @param plt array number.
+#' @param barcode scanning the barcode on the array.
+#' @export
+#'
+#' @importFrom dplyr
+
+SampleSheet<-
   function(txt= file.choose(), outPath, db = NULL, GT, plt, barcode){
 
-    library(dplyr)
-    library(lubridate)
-    library(readxl)
-    library(openxlsx)
-    library(crayon)
     options(scipen = 999)
 
     tempPath=
       system.file("extdata",
                   "GeneTitanArrayPlateRegistration.xls", package = "PHPpipe")
 
-    temp  <- read_excel(tempPath, sheet = 1)
+    temp  <- readxl::read_excel(tempPath, sheet = 1)
     sheet2<-
-      read_excel(tempPath, sheet = 2) %>%
+      readxl::read_excel(tempPath, sheet = 2) %>%
       cbind.data.frame(` ` = rep('',nrow(.)),.)
-    sheet3<- read_excel(tempPath, sheet = 3)
+    sheet3<- readxl::read_excel(tempPath, sheet = 3)
 
     array= txt %>% basename() %>% strsplit(.,'_') %>% unlist() %>% .[2]
 
@@ -51,7 +63,7 @@ f.SampleSheet<-
 
         dir.create(folderName, showWarnings = F)
 
-        write.xlsx(
+        openxlsx::write.xlsx(
           list('Samples' = SampleSheet,
                'DO_NOT_EDIT' = sheet2,
                'DO_NOT_EDIT_TEMPLATE_INFO' = sheet3),
@@ -64,21 +76,23 @@ f.SampleSheet<-
           SampleSheet1<-
             SampleSheet %>%
             mutate(SplSheet_time = Sys.time() %>% as.character())
-          sqlSave(db, SampleSheet1, tablename = 'SampleSheet', append = T)
+          RODBC::sqlSave(db, SampleSheet1, tablename = 'SampleSheet', append = T)
         }
 
-        cat(bgBlue("== 完成 =="), "檔案名稱:",
+        cat(crayon::bgBlue("== 完成 =="), "檔案名稱:",
             paste0('GeneTitanArrayPlateRegistration', fileName, '.xls'),
             paste('共:', nrow(SampleSheet), '支 (含 Control)\n'), sep = '\n')
       } else {
-        cat(bgRed('[警告]'), '所選檔案檢體數量不為 95 支', bgBlue("== 結束 =="))
+        cat(crayon::bgRed('[警告]'), '所選檔案檢體數量不為 95 支',
+            crayon::bgBlue("== 結束 =="))
       }
 
     } else {
-      cat(bgRed('[警告]'), '所選檔案格式不正確 or 檔案與輸入的盤號不相符\n')
+      cat(crayon::bgRed('[警告]'),
+          '所選檔案格式不正確 or 檔案與輸入的盤號不相符\n')
     }
-    if (!is.null(db)){odbcClose(db)}
+    if (!is.null(db)){RODBC::odbcClose(db)}
   }
 
-# f.SampleSheet()
+#SampleSheet()
 
