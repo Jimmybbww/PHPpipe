@@ -10,6 +10,7 @@
 #' @param outPath a character string naming a output path.
 #' @param type *1* : standard format/ *2* : retest format.
 #' @param db connection handle returned by `RODBC::odbcConnect`. (default: *NULL*).
+#' @export
 
 f.DNAextractQC<-
   function(path= choose.files(), LowerOD= 1.65, UpperOD= 2.2, DNAcon= 10,
