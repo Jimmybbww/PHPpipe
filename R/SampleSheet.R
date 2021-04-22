@@ -59,8 +59,10 @@ SampleSheet<-
                  Barcode = as.character(barcode) )
 
         fileName= paste0(today, '_GT', GT,  '_ARRAY_', plt)
+        GTName= file.path(outPath, paste0('GT', GT))
         folderName= file.path(outPath, paste0('GT', GT), fileName)
 
+        dir.create(GTName, showWarnings = F)
         dir.create(folderName, showWarnings = F)
 
         openxlsx::write.xlsx(
