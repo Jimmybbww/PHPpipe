@@ -40,7 +40,7 @@ DNAextractQC<-
           line[3:(length(line)-1)] %>% matrix(., ncol = 5, byrow = T) %>%
           data.frame(.,stringsAsFactors = F)
         df1<-
-          data.frame(extr_date = format(ymd(line[1]), '%Y/%m/%d'),
+          data.frame(extr_date = format(lubridate::ymd(line[1]), '%Y/%m/%d'),
                      extr_time = line[2],
                      extr_type = line[length(line)],
                      lapply(value, as.numeric),
