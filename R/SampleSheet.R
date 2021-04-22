@@ -14,7 +14,7 @@
 #' @param barcode scanning the barcode on the array.
 #' @export
 #'
-#' @importFrom dplyr
+#' @import dplyr
 
 SampleSheet<-
   function(txt= file.choose(), outPath, db = NULL, GT, plt, barcode){

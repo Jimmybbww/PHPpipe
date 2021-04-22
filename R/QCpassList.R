@@ -9,7 +9,7 @@
 #' @param myLast scanning the last work ID barcode on white box.
 #' @export
 #'
-#' @importFrom dplyr
+#' @import dplyr
 
 QCpassList<-
   function(outPath, db, myFirst, myLast){

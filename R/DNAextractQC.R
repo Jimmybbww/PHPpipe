@@ -17,7 +17,7 @@
 #' (default: *NULL*).
 #' @export
 #'
-#' @importFrom dplyr
+#' @import dplyr
 
 DNAextractQC<-
   function(path= choose.files(), LowerOD= 1.65, UpperOD= 2.2, DNAcon= 10,

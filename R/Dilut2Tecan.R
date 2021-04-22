@@ -13,7 +13,7 @@
 #' @param n.out the maximum number of sample.
 #' @export
 #'
-#' @importFrom dplyr
+#' @import dplyr
 
 Dilut2Tecan<-
   function(outPath, db, array, start, appendix = F, exclude = F, n.out= 95){

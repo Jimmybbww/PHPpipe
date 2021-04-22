@@ -3,7 +3,7 @@
 #' Create template of Tecan format.
 #' @export
 #'
-#' @importFrom dplyr
+#' @import dplyr
 
 template.gwl<-
   function(){
