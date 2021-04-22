@@ -7,14 +7,14 @@
 #' DNAcon = 10, outPath, type, db = NULL)
 #'
 #' @param path the name of the file which the data are to be read from.
-#' (default: `choose.files`).
+#' (default: \code{choose.files}).
 #' @param LowerOD lower limit of OD260/280 ratio (default: 1.65).
 #' @param UpperOD upper limit of OD260/280 ratio (default: 2.20).
 #' @param DNAcon DNA concentration (default: 10 µg/ml).
 #' @param outPath a character string naming a output path.
-#' @param type *1* : standard format/ *2* : retest format.
-#' @param db connection handle returned by `RODBC::odbcConnect`.
-#' (default: *NULL*).
+#' @param type 1 : standard format/ 2 : retest format.
+#' @param db connection handle returned by \code{RODBC::odbcConnect}.
+#' (default: \code{NULL}).
 #' @export
 #'
 #' @import dplyr

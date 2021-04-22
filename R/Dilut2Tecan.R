@@ -5,11 +5,11 @@
 #' @usage
 #' Dilut2Tecan(outPath, db, array, start, appendix = F, exclude = F, n.out = 95)
 #' @param outPath a character string naming a output path.
-#' @param db connection handle returned by `RODBC::odbcConnect`.
+#' @param db connection handle returned by \code{RODBC::odbcConnect}.
 #' @param array array number.
 #' @param start the first work ID to be diluted.
 #' @param appendix a file containing re-diluted, manual diluted and exclusion samples.
-#' @param exclude a *logical* value indicating whether the samples to be excluded.
+#' @param exclude a \code{logical} value indicating whether the samples to be excluded.
 #' @param n.out the maximum number of sample.
 #' @export
 #'

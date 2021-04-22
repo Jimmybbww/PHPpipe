@@ -4,7 +4,7 @@
 #'
 #' @usage QCpassList(outPath, db, myFirst, myLast)
 #' @param outPath a character string naming a output path.
-#' @param db connection handle returned by `RODBC::odbcConnect`.
+#' @param db connection handle returned by \code{RODBC::odbcConnect}.
 #' @param myFirst scanning the first work ID barcode on white box.
 #' @param myLast scanning the last work ID barcode on white box.
 #' @export

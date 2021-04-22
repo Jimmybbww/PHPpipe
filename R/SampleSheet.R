@@ -5,10 +5,10 @@
 #' @usage
 #' SampleSheet(txt= file.choose(), outPath, db = NULL, GT, plt, barcode)
 #' @param txt the name of the file which the data are to be read from.
-#' (default: `choose.files`).
+#' (default: \code{choose.files}).
 #' @param outPath a character string naming a output path.
-#' @param db connection handle returned by `RODBC::odbcConnect`.
-#' (default: *NULL*).
+#' @param db connection handle returned by \code{RODBC::odbcConnect}.
+#' (default: \code{NULL}).
 #' @param GT machine number.
 #' @param plt array number.
 #' @param barcode scanning the barcode on the array.
