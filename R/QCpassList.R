@@ -46,11 +46,11 @@ QCpassList<-
     n.manual= nrow(manual)
 
     if (n.MyList != 100){
-      cat(caryon::bgRed("[警告]"), "需求數目為:", n.MyList, "支, 超過/不足 100 支\n")
+      cat(crayon::bgRed("[警告]"), "需求數目為:", n.MyList, "支, 超過/不足 100 支\n")
     }
 
     if (n.MyList != n.Sample){
-      cat(caryon::bgRed("[警告]"), "需求數目為:", n.MyList, "支, 實際數目:",
+      cat(crayon::bgRed("[警告]"), "需求數目為:", n.MyList, "支, 實際數目:",
           sprintf('%03s', n.Sample), '支\n')
     }
 
@@ -70,16 +70,16 @@ QCpassList<-
                        varTypes = c(workid = 'int')
                        )
 
-        cat(caryon::bgBlue("== 完成 =="), "檔案名稱:", FileName, sep = '\n')
+        cat(crayon::bgBlue("== 完成 =="), "檔案名稱:", FileName, sep = '\n')
 
         if (n.manual != 0){
           write.csv(manual, file.path(outPath, 'PassList', ManualName), row.names = F)
-          cat(caryon::bgBlue("== 需手動稀釋 =="), "檔案名稱:", ManualName,
+          cat(crayon::bgBlue("== 需手動稀釋 =="), "檔案名稱:", ManualName,
               paste(n.manual, '支'), sep = '\n')
         }
 
       } else {
-        cat(caryon::bgBlue("== 取消匯出 =="))
+        cat(crayon::bgBlue("== 取消匯出 =="))
       }
 
     } else {
@@ -90,11 +90,11 @@ QCpassList<-
                      varTypes = c(workid = 'int')
                      )
 
-      cat(caryon::bgBlue("== 完成 =="), "檔案名稱:", FileName, sep = '\n')
+      cat(crayon::bgBlue("== 完成 =="), "檔案名稱:", FileName, sep = '\n')
 
       if (n.manual != 0){
         write.csv(manual, file.path(outPath, 'PassList', ManualName), row.names = F)
-        cat(caryon::bgBlue("== 需手動稀釋 =="), "檔案名稱:", ManualName,
+        cat(crayon::bgBlue("== 需手動稀釋 =="), "檔案名稱:", ManualName,
             paste(n.manual, '支'), sep = '\n')
       }
 

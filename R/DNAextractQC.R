@@ -100,8 +100,8 @@ DNAextractQC<-
                        )
         }
 
-      cat(caryon::bgBlue("== 完成 =="), "檔案名稱:", passFileName,
-          paste(caryon::bgGreen('PASS:'), nrow(DNAextract_Pass), '支'),
+      cat(crayon::bgBlue("== 完成 =="), "檔案名稱:", passFileName,
+          paste(crayon::bgGreen('PASS:'), nrow(DNAextract_Pass), '支'),
           '\n', sep = '\n')
 
       if (nrow(DNAextract_Fail)!=0){
@@ -115,15 +115,15 @@ DNAextractQC<-
                          )
           }
 
-        cat(caryon::bgBlue("== 完成 =="), "檔案名稱:", failFileName,
-            paste(caryon::bgRed('FAIL:'), nrow(DNAextract_Fail), '支'),
+        cat(crayon::bgBlue("== 完成 =="), "檔案名稱:", failFileName,
+            paste(crayon::bgRed('FAIL:'), nrow(DNAextract_Fail), '支'),
             '\n', sep = '\n')
         print(DNAextract_Fail[,c(1:6)])
       }
 
     } else {
-      cat(caryon::bgRed('== 檔案格式錯誤 ==\n'),
-          caryon::bgBlue('== 結束程序 ==\n'))
+      cat(crayon::bgRed('== 檔案格式錯誤 ==\n'),
+          crayon::bgBlue('== 結束程序 ==\n'))
     }
     if (!is.null(db)) {RODBC::odbcClose(db)}
   }

@@ -86,14 +86,14 @@ Dilut2Tecan<-
     Ans2= ''
 
     if ( any(df1$workid %in% manual) ){
-      Ans1= readline(cat(caryon::bgRed('[警告]'),warning1))
-      if ( Ans1 != 'Yes' ){ cat(caryon::bgBlue("== 取消匯出 ==")) }
+      Ans1= readline(cat(crayon::bgRed('[警告]'),warning1))
+      if ( Ans1 != 'Yes' ){ cat(crayon::bgBlue("== 取消匯出 ==")) }
     }
 
     if( !any(df1$workid %in% c(retest, manual)) | Ans1 == 'Yes' ){
       if ( nrow(List2Txt) != n.out ){
-        Ans2 = readline(cat(caryon::bgRed('[警告]'),warning2))
-        if ( Ans2 != 'Yes' ){ cat(caryon::bgBlue("== 取消匯出 ==")) }
+        Ans2 = readline(cat(crayon::bgRed('[警告]'),warning2))
+        if ( Ans2 != 'Yes' ){ cat(crayon::bgBlue("== 取消匯出 ==")) }
       }
 
       if (nrow(List2Txt) == n.out | Ans2 == 'Yes'){
@@ -123,7 +123,7 @@ Dilut2Tecan<-
         write.table(gwl, file.path(outPath, 'gwl', Name.gwl),
                     quote = F, col.names = F, row.names = F)
 
-        cat(caryon::bgBlue("== 完成 =="), "(.gwl) 檔案名稱:", Name.gwl,
+        cat(crayon::bgBlue("== 完成 =="), "(.gwl) 檔案名稱:", Name.gwl,
             paste('此清單中有:', n.gwl, '支\n'), sep = '\n')
 
         # ---- create & write txt (pos, worknumber) ----
@@ -141,7 +141,7 @@ Dilut2Tecan<-
                        varTypes = c(workid = 'int', array = 'int')
                        )
 
-        cat(caryon::bgBlue("== 完成 =="), "(.txt) 檔案名稱:", Name.txt,
+        cat(crayon::bgBlue("== 完成 =="), "(.txt) 檔案名稱:", Name.txt,
             paste('此清單中有:', nrow(txt), '支\n'), sep = '\n')
 
         # Write check.list
@@ -149,7 +149,7 @@ Dilut2Tecan<-
                     col.names = !file.exists(file.path(outPath, "check.list.csv")),
                     row.names = F, append = T)
 
-        cat(caryon::bgBlue("== 註 =="),
+        cat(crayon::bgBlue("== 註 =="),
             "自動/重測/手動稀釋紀錄於\n檔案名稱: check.list.csv", sep = '\n')
       }
 
