@@ -20,11 +20,12 @@ DNA extract QC
 
 ``` r
 # create folder
-dir.create(file.path('./','Pass'))
-dir.create(file.path('./','Fail'))
+dir.create(file.path('./','Pass')); dir.create(file.path('./','Fail'))
+
 # get example file path
 path.std= system.file('extdata','OpticsSampleData_example.csv', package = 'PHPpipe')
 path.re= system.file('extdata','DNA re-test_example.csv', package = 'PHPpipe')
+
 # standard format
 PHPpipe::DNAextractQC(path = path.std, outPath = './', type = 1)
 # re-test format
