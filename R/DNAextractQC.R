@@ -49,16 +49,11 @@ DNAextractQC<-
           filter(!is.na(X1))
       } else if (type == 2){
 
-        msg =
-          tryCatch(read.csv(path, fileEncoding = 'UTF-16', sep = '\t'),
-                   warning = function(w){T},
-                   error = function(e){T})
-
-        if (any(msg)){
-          df<- data.table::fread(path) %>% .[,1:10]
-        } else {
-          df<- read.csv(path, fileEncoding = 'UTF-16', sep = '\t') %>% .[,1:10]
-        }
+        tryCatch(
+          df<- read.csv(path, fileEncoding = 'UTF-16', sep = '\t')%>% .[,1:10],
+          warning = function(w){ df<- data.table::fread(path) %>% .[,1:10] },
+          error = function(e){ df<- data.table::fread(path) %>% .[,1:10] }
+          )
 
         date_time= lubridate::mdy_hms(df$Date)
         Date= format(date_time, '%Y/%m/%d')
