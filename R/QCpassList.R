@@ -12,7 +12,7 @@
 #' @import dplyr
 
 QCpassList<-
-  function(outPath, db, myFirst, myLast){
+  function(outPath, db, myFirst, myLast, th_dna= 800, th_h2o= 80, th_con= 25){
 
     options(scipen = 999)
 
@@ -33,9 +33,9 @@ QCpassList<-
 
     QCpassList<-
       df %>%
-      mutate(dna = 800/ng_ul,
-             h2o = 80 - dna,
-             dilut_pass = if_else(ng_ul >= 25, 1, 0),
+      mutate(dna = th_dna/ng_ul,
+             h2o = th_h2o - dna,
+             dilut_pass = if_else(ng_ul >= th_con, 1, 0),
              box_time= Sys.time() %>% as.character() ) %>%
       filter(workid %in% myList)
 

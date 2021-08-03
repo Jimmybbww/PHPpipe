@@ -16,7 +16,8 @@
 #' @import dplyr
 
 Dilut2Tecan<-
-  function(outPath, db, array, start, appendix = F, exclude = F, n.out= 95){
+  function(outPath, db, array, start, appendix = F, exclude = F, n.out= 95,
+           water= 80.0000, dna= 20){
 
     options(scipen = 999)
 
@@ -100,7 +101,7 @@ Dilut2Tecan<-
         # ---- create gwl ----
         n.gwl= nrow(List2Gwl)
         temp<-
-          do.call(rbind, replicate(n.gwl, template.gwl()$body, simplify = F)) %>%
+          do.call(rbind, replicate(n.gwl, template.gwl(water, dna)$body, simplify = F)) %>%
           mutate(n = 1:nrow(.),
                  row = if_else(n%%6== 0, 6, n%%6),
                  pos = ((n-1)%/%6)+1 )

@@ -6,7 +6,7 @@
 #' @import dplyr
 
 template.gwl<-
-  function(){
+  function(water=80.0000, dna=20){
 
     # ---- gwl head ----
     head<-
@@ -41,9 +41,9 @@ template.gwl<-
         ),
         x4 = c(NA, #change
                NA, #change
-               80.0000,
-               20,
-               20,
+               water,
+               dna,
+               dna,
                NA
         ),
         x5 = c(';Water1',
