@@ -27,7 +27,7 @@ DNAextractQC<-
 
     if (type == 1){
       rightFileName= grepl('^OpticsSampleData.*csv$', basename(path))
-    } else if (type == 2){
+    } else if (type == 3){
       rightFileName= grepl('^DNA.*re.*test.*csv$', basename(path))
     }
 
@@ -58,29 +58,29 @@ DNAextractQC<-
         Date= format(lubridate::ymd(stringr::str_extract(df[4,1], '\\d.*')), '%Y/%m/%d')
         time= format(lubridate::ymd_hms(
           paste(lubridate::today(), stringr::str_extract(df[5,1], '\\d.*'))), '%H:%M:%S')
-        
+
         value<- data.frame(workid = as.character(unlist(df[13:nrow(df),2])),
                            ng_ul = as.numeric(unlist(df[13:nrow(df),3])),
                            a_260 = as.numeric(unlist(df[13:nrow(df),4])),
                            a_280 = as.numeric(unlist(df[13:nrow(df),5])),
                            a_260_280 = a_260/a_280
         )
-        
+
         df1<- cbind.data.frame(Date = Date, Time = time, Type = 'DNA', value,
                                extrQC_time= Sys.time() %>% as.character()
         )
       } else if (type == 3){
-        
+
         tryCatch(
           df<- read.csv(path, fileEncoding = 'UTF-16', sep = '\t')%>% .[,1:10],
           warning = function(w){ df<- data.table::fread(path) %>% .[,1:10] },
           error = function(e){ df<- data.table::fread(path) %>% .[,1:10] }
         )
-        
+
         date_time= lubridate::mdy_hms(df$Date)
         Date= format(date_time, '%Y/%m/%d')
         time= format(date_time, '%H:%M:%S')
-        
+
         value<- df[, c(2:4,6,7)]
         df1<-
           cbind.data.frame(Date = Date, Time = time, Type = 'DNA', value,
