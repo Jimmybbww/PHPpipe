@@ -103,7 +103,7 @@ DNAextractQC<-
       max= max(df1$workid)
 
       if (type == 1){FileType = '_DNAextract'
-      } else if (type == 2){FileType = '_retestDNA'}
+      } else {FileType = '_retestDNA'}
       passFileName= paste0(date, FileType, '_Pass_', min, '_', max, '.csv')
       failFileName= paste0(date, FileType, '_Fail_', min, '_', max, '.csv')
 
