@@ -29,7 +29,7 @@ path.re= system.file('extdata','DNA re-test_example.csv', package = 'PHPpipe')
 # standard format
 PHPpipe::DNAextractQC(path = path.std, outPath = './', type = 1)
 # re-test format
-PHPpipe::DNAextractQC(path = path.re, outPath = './', type = 2)
+PHPpipe::DNAextractQC(path = path.re, outPath = './', type = 3)
 ```
 
 ---
